@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yishen.sdk.mapper.PermissionMapper">
+
+
+  <!--<insert id="insert" keyProperty="id" useGeneratedKeys="true">-->
+    <!--insert into user (username, password, name-->
+      <!--)-->
+    <!--values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}-->
+      <!--)-->
+  <!--</insert>-->
+<!--<update id="update" >-->
+    <!--update user-->
+    <!--set-->
+    <!--username=#{username},-->
+    <!--password=#{password},-->
+    <!--name=#{name}-->
+    <!--where id=#{id}-->
+<!--</update>-->
+
+    <!--<delete id="delete">-->
+        <!--delete * from USER-->
+        <!--where id = #{id}-->
+
+    <!--</delete>-->
+
+    <select id="selectByRoleIds" resultType="Permission">
+        select p.*
+        from role_permisssion rp LEFT JOIN permission p on rp.permission = p.id
+        where rp.roleId in
+        <foreach collection="ids" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

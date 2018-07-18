@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>table模块快速使用</title>
+  <link rel="stylesheet" href="./layui/css/layui.css" media="all">
+</head>
+<body>
+ 
+ <div style="width: 1000px;margin: 40px;">
+ 	<table id="demo" lay-filter="test"></table>
+ </div>
+ 
+<script src="./layui/layui.js"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+layui.use('table', function(){
+  var table = layui.table;
+  
+  //第一个实例
+  table.render({
+    elem: '#demo',
+    height: 400,
+    url: './mocal/table.json', //数据接口
+    page: true, //开启分页
+    cols: [[ //表头
+    	{field: 'id', type: 'checkbox', width:80, fixed: 'left'}
+      ,{field: 'id', title: 'ID', width:80, sort: true}
+      ,{field: 'username', title: '用户名', width:80}
+      ,{field: 'sex', title: '性别', width:80, sort: true}
+      ,{field: 'city', title: '城市', width:80} 
+      ,{field: 'sign', title: '签名', width: 177}
+      ,{field: 'experience', title: '积分', width: 80, sort: true}
+      ,{field: 'score', title: '评分', width: 80, sort: true}
+      ,{field: 'classify', title: '职业', width: 80}
+      ,{field: 'wealth', title: '财富', width: 135, sort: true}
+    ]],
+    done: function(res, curr, count){
+    	//循环所有数据，找出对应关系，设置checkbox选中状态
+	    for(var i=0;i< res.data.length;i++){
+        //数据id和要勾选的id相同时checkbox选中
+        if(res.data[i].sex == '女'){
+        	console.log(i)
+	        //这里才是真正的有效勾选
+	        res.data[i]["LAY_CHECKED"]='true';
+	        //找到对应数据改变勾选样式，呈现出选中效果
+	        var index= res.data[i]['LAY_TABLE_INDEX'];
+	        $('.layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+	        $('.layui-table-fixed-l tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+        }
+	    }
+	  }
+  });
+  
+});
+</script>
+</body>
+</html>
